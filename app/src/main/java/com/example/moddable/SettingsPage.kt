@@ -892,7 +892,7 @@ class SettingsPage {
     }*/
 
     private fun downloadMods(dlurl: Context) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/K0d0ku/Moddable-app/forks"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/K0d0ku/Moddable-app/network/members"))
         dlurl.startActivity(intent)
     }
 
@@ -1087,7 +1087,7 @@ class SettingsPage {
         modderjoin.startActivity(intent)
     }
     private fun discussionfunc(discussionGit: Context) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/K0d0ku/Moddable-app/discussions"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/K0d0ku/Moddable-app/discussions?discussions_q="))
         discussionGit.startActivity(intent)
     }
     private fun leaveReviewGit(reviewGit: Context) {
