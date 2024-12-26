@@ -35,11 +35,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.ui.platform.LocalContext
 
 data class WebPage(
     val route: String,
     val name: String,
-    val url: String
+    val url: String,
+    val openInBrowser: Boolean = false
 )
 
 class MenuPage {
@@ -47,12 +51,16 @@ class MenuPage {
     // Define the list of dynamic web pages
     private val webPages = listOf(
         WebPage(route = "Reviews", name = "Reviews", url = "https://docs.google.com/forms/d/19z9ZGm9W-gZTMIoDlDEbvkn9p3ksLzEAOoTScsutFcw/viewanalytics"),
-        WebPage(route = "Announcements", name = "Announcements", url = "https://github.com/K0d0ku/Moddable-app/discussions/categories/announcements?discussions_q=category%3AAnnouncements+")
-        // Add more pages as needed
+        WebPage(route = "Announcements", name = "Announcements", url = "https://github.com/K0d0ku/Moddable-app/discussions/categories/announcements?discussions_q=category%3AAnnouncements+"),
+        WebPage(route = "Trello Progress", name = "Trello Progress", url = "https://trello.com/b/3vFz4JJZ/moddable-application-development-process", openInBrowser = true),
+        WebPage(route = "Git Roadmap", name = "Git Roadmap", url = "https://github.com/users/K0d0ku/projects/2/views/4", openInBrowser = true),
+        WebPage(route = "Team Capacity", name = "Team Capacity", url = "https://github.com/users/K0d0ku/projects/2/views/2", openInBrowser = true)
     )
 
     @Composable
     fun Content(navController: androidx.navigation.NavController) {
+        val context = LocalContext.current
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -65,11 +73,11 @@ class MenuPage {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Mood, // Correct usage
+                    imageVector = Icons.Filled.Mood,
                     contentDescription = "",
                     modifier = Modifier
-                        .size(148.dp) // Adjust the size of the icon
-                        .padding(start = 8.dp) // Add spacing between the text and the icon
+                        .size(148.dp)
+                        .padding(start = 8.dp)
                 )
                 Text(
                     text = "Hello, User!",
@@ -81,7 +89,14 @@ class MenuPage {
                 // Dynamically generate buttons for web pages
                 webPages.forEach { page ->
                     Button(
-                        onClick = { navController.navigate(page.route) },
+                        onClick = {
+                            if (page.openInBrowser) {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(page.url))
+                                context.startActivity(intent)
+                            } else {
+                                navController.navigate(page.route)
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
